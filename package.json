@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "dotenv": "^16.0.3",
     "lowdb": "^5.1.0",
     "node-html-parser": "^6.1.5"
   },

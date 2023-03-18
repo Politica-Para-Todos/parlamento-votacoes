@@ -1,4 +1,4 @@
-import executeApp from './voting.js';
+import executeApp from './src/voting.js';
 
 console.log('App is starting...');
 await executeApp();

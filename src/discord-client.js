@@ -1,27 +1,10 @@
-import { DISCORD_WEB_HOOK } from "./constants.js";
+import { DISCORD_WEB_HOOK } from './constants.js';
 
-const publishOnDiscord = async (publication) => {
+const publishOnDiscord = async (post) => {
   const options = {
     method: 'POST',
     body: JSON.stringify({
-      // content: `
-      // Título: ${publication.title}
-      // Data: ${publication.date}
-      // PDF Votação: ${publication.pdfUrl}
-      // `,
-      content: "This is a test message",
-      components: [
-        {
-          type: 1,
-          components: [
-            {
-              style: 5,
-              label: "publication.title",
-              url: "publication.pdfUrl"
-            }
-          ]
-        }
-      ],
+      content: `[${post.title} ${post.date}](${post.pdfUrl})`
     }),
     headers: {
       'Content-Type': 'application/json'

@@ -1,5 +1,5 @@
 {
-  "name": "parlament-votacoes",
+  "name": "parlamento-votacoes",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "lowdb": "^5.1.0",
     "node-html-parser": "^6.1.5"
   },
   "type": "module"

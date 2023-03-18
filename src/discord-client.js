@@ -1,5 +1,3 @@
-import { DISCORD_WEB_HOOK } from './constants.js';
-
 const publishOnDiscord = async (post) => {
   const options = {
     method: 'POST',
@@ -11,7 +9,7 @@ const publishOnDiscord = async (post) => {
     }
   };
 
-  fetch(DISCORD_WEB_HOOK, options)
+  fetch(process.env.DISCORD_WEB_HOOK, options)
     .then(response => console.log(response));
 }
 

@@ -6,9 +6,9 @@ const db = await startDB();
 
 const executeApp = async () => {
   console.log('Requesting Parlamento/Arquivo.pt...');
-
+  
   const unnotifiedPosts = await scan(db);
-
+  
   if (unnotifiedPosts.length === 0) {
     // no new posts
     // publish to Discord execution with no new posts ?

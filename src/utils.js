@@ -1,10 +1,11 @@
 import * as dotenv from 'dotenv';
+import { VOTING_SCRIPT_TITLE } from './constants.js';
 
 export const isOdd = (value) => value % 2 != 0;
 
 export const convertToDate = (text) => text.trim().replace(/[.\s]/g, '');
 
-export const areObjectsEqual = (object1, object2) =>
+export const areTheSamePosts = (object1, object2) =>
   JSON.stringify(object1) === JSON.stringify(object2);
 
 export const appConfiguration = () => {
@@ -19,3 +20,5 @@ export const appConfiguration = () => {
     throw Error(error.message);
   }
 }
+
+export const isVotingScript = (title) => title.includes(VOTING_SCRIPT_TITLE); 

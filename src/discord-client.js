@@ -12,7 +12,7 @@ const publishOnDiscord = async (unnotifiedPosts, db) => {
     }, 5000 * (index + 1));
 
     if (index == 0) {
-      db.data.lastPost = formattedPost;
+      db.data.lastPost = post;
       await db.write();
       console.log('Last post was written to db.json.');
     }

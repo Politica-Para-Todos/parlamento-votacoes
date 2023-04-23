@@ -1,20 +1,27 @@
-const publishOnDiscord = async (unnotifiedPosts, db) => {
-  unnotifiedPosts.forEach(async (post, index) => {
+import { redisClient } from "./config.js";
+
+const postOnDiscord = async (content) => {
+
+  if (typeof content === 'string') {
+    await postMessage(content);
+    return;
+  } 
+  
+  content.forEach(async (post, index) => {
     const formattedPost = {
       date: `${post.date.slice(0, 2)}-${post.date.slice(2, 4)}-${post.date.slice(4)}`,
       title: post.title,
       pdfUrl: post.pdfUrl
     };
-    console.log(`Post: ${formattedPost} sent to be published.`);
+    
+    console.log(`Post: ${JSON.stringify(formattedPost)} on queue to be published.`);
 
     setTimeout(async () => {
       await postMessage(formattedPost);
     }, 5000 * (index + 1));
 
-    if (index == 0) {
-      db.data.lastPost = post;
-      await db.write();
-      console.log('Last post was written to db.json.');
+    if (index === 0) {
+      await redisClient.json.set('lastPost', '.', post);
     }
     console.log('All new posts were published.');
   })
@@ -47,7 +54,7 @@ const postMessage = async (message) => {
 }
 
 const buildRequestBody = (message) => {
-  if (typeof content === 'string') {
+  if (typeof message === 'string') {
     return JSON.stringify({
       content: message
     });
@@ -57,4 +64,4 @@ const buildRequestBody = (message) => {
   });
 }
 
-export default publishOnDiscord;
+export default postOnDiscord;

@@ -1,10 +1,8 @@
-import { appConfiguration } from './src/utils.js';
-import executeApp from './src/voting.js';
+import { bootstrap, closeRedisDatabaseConnection, redisClient } from './src/config.js';
+import executeApp from './src/execution.js';
 
-console.log('Start cnfiguration...')
-appConfiguration();
-console.log('Configuration completed.');
-
-console.log('App is starting...');
+console.log('---> parlamento-votacoes is starting...');
+await bootstrap();
 await executeApp();
+await closeRedisDatabaseConnection(0);
 console.log('App have finished execution.');

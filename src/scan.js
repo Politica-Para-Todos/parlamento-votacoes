@@ -1,8 +1,9 @@
 import { PARLIAMENT_VOTING_ARCHIVE_URL, WEBSITE_VOTING_ELEMENT_ID } from './constants.js';
 import HTMLParser from 'node-html-parser';
 import { isOdd, convertToDate, areTheSamePosts, isVotingScript } from './utils.js';
+import { redisClient } from './config.js';
 
-const scan = async (db) => {
+const scan = async () => {
   return fetch(PARLIAMENT_VOTING_ARCHIVE_URL)
     .then(response => {
       if (!response.ok) {
@@ -14,18 +15,17 @@ const scan = async (db) => {
     .then(async (html) => {
       const parser = HTMLParser.parse(html);
       const publicationResults = [];
-
       const docsVotingSection = parser.getElementById(WEBSITE_VOTING_ELEMENT_ID);
+      const docsVotingSectionSize = docsVotingSection.childNodes.length;
+      const redisObject = await redisClient.json.get('lastPost');
 
-      for (let index = 0; index < docsVotingSection.childNodes.length; index++) {
+      for (let index = 0; index < docsVotingSectionSize; index++) {
         const votingElement = docsVotingSection.childNodes[index];
-        // docsVotingSection.childNodes.forEach((votingElement, index) => {
         if (isOdd(index)) {
           let date = '';
           let title = '';
           let pdfUrl = '';
 
-          // votingElement.childNodes.forEach(async (innerSection, index) => {
           for (let index = 0; index < votingElement.childNodes.length; index++) {
             const innerSection = votingElement.childNodes[index];
             if (isOdd(index)) {
@@ -37,23 +37,20 @@ const scan = async (db) => {
                 pdfUrl = innerSection.getElementsByTagName('a')[0].attributes.href;
 
                 const currentPost = {
-                  date,
                   title,
+                  date,
                   pdfUrl
                 }
 
-                if (!isVotingScript(currentPost.title) && areTheSamePosts(currentPost, db.data.lastPost)) {
-                  console.log('No new posts');
+                if (isVotingScript(currentPost.title) || areTheSamePosts(currentPost, redisObject)) {
                   return publicationResults;
                 }
 
-                if (!isVotingScript(currentPost.title) && !areTheSamePosts(currentPost, db.data.lastPost)) {
-                  publicationResults.push({
-                    date,
-                    title,
-                    pdfUrl
-                  });
-                }
+                publicationResults.push({
+                  title,
+                  date,
+                  pdfUrl
+                });
               }
             }
           }

@@ -32,7 +32,7 @@ const startRedisDatabaseConnection = async () => {
 }
 
 const redisConfig = () => {
-  if (process.env.NODE_ENV !== 'local') {
+  if (process.env.REDISCLOUD_URL !== undefined) {
     return {
       url: process.env.REDISCLOUD_URL
     }

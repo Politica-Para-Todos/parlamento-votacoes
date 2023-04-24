@@ -20,7 +20,7 @@ export const bootstrap = async () => {
   }
 }
 
-export const redisClient = process.env.NODE_ENV !== 'local' ? redis.createClient() : redis.createClient(redisConfig);
+export const redisClient = process.env.NODE_ENV !== 'local' ? redis.createClient() : redis.createClient(redisConfig());
 
 const startRedisDatabaseConnection = async () => {
   console.log('Start Redis database connection...');

@@ -1,4 +1,4 @@
-import { bootstrap, closeRedisDatabaseConnection, redisClient } from './src/config.js';
+import { bootstrap, closeRedisDatabaseConnection } from './src/config.js';
 import executeApp from './src/execution.js';
 
 console.log('---> parlamento-votacoes is starting...');

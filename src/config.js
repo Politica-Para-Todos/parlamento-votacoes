@@ -27,7 +27,7 @@ export const redisClient = process.env.REDISCLOUD_URL !== undefined ?
 const startRedisDatabaseConnection = async () => {
   console.log('Start Redis database connection...');
 
-  redisClient.on('error', err => console.log('Redis Client Error: ', err));
+  redisClient.on('error', () => redisClient.quit());
   await redisClient.connect();
 
   console.log('Redis database is connected.');

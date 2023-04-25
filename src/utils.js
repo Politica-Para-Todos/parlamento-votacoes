@@ -9,6 +9,4 @@ export const areTheSamePosts = (currentPost, lastSavedPost) =>
 
 export const isVotingScript = (title) => title.includes(VOTING_SCRIPT_TITLE);
 
-export const currentDateTime = () => new Date().toISOString()
-  .replace('T', ' ')
-  .replace(/\..+/, '');
+export const currentDateTime = () => new Date().toLocaleString('pt-PT', { timeZone: 'Europe/Lisbon' });
